@@ -87,6 +87,33 @@ The API will be available at:
 
 ## 📖 API Usage
 
+### Frontend Integration
+
+The system includes a complete React frontend located in the `frontend/` directory. The frontend provides:
+- **Modern Chat Interface**: GitHub-style dark theme with responsive design
+- **File Upload**: Drag-and-drop file upload with support for CSV, Excel, JSON formats  
+- **Data Preview**: Live preview of uploaded datasets
+- **Interactive Charts**: Recharts-powered visualizations (bar, line, pie, area charts)
+- **Quick Menu**: Pre-built analysis queries for common tasks
+- **Real-time Analysis**: Background processing with status polling
+
+#### Frontend Endpoints Mapped
+The frontend uses these specific API endpoints:
+
+- **`POST /analyze`** - Start background analysis task
+- **`GET /status/{session_id}`** - Poll analysis completion status  
+- **`POST /upload`** - Simple file upload with preview generation
+- **`GET /quick-menu`** - Get predefined analysis queries
+
+#### Starting the Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+The frontend will be available at http://localhost:3000
+
 ### Core Endpoints
 
 #### 1. Create Session

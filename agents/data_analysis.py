@@ -910,13 +910,48 @@ class DataAnalysisAgent(BaseAgent):
                 response_content += f"- **Minimum:** {dataset[target_col].min():.2f}\n"
                 response_content += f"- **Standard Deviation:** {dataset[target_col].std():.2f}\n"
             
+            # Prepare chart data for visualization
+            chart_data = []
+            chart_type = "bar"
+            
+            if group_by_col and group_by_col in dataset.columns:
+                # Create chart data from grouped results
+                for group_name, row in grouped_data.iterrows():
+                    chart_data.append({
+                        "name": str(group_name),
+                        "value": float(row['mean']),
+                        "total": float(row['sum']),
+                        "maximum": float(row['max']),
+                        "minimum": float(row['min']),
+                        "count": int(row['count'])
+                    })
+                chart_type = "bar"
+            else:
+                # Simple single value - create a simple chart
+                chart_data = [{
+                    "name": target_col.replace('_', ' '),
+                    "value": float(result_value)
+                }]
+                chart_type = "bar"
+            
             return {
                 "success": True,
                 "response": AgentResponse(
                     agent_name=self.name,
                     content=response_content,
                     response_type="analysis",
-                    metadata={"analysis_type": "aggregation", "target_column": target_col, "group_by": group_by_col}
+                    metadata={
+                        "analysis_type": "aggregation", 
+                        "target_column": target_col, 
+                        "group_by": group_by_col,
+                        "result_value": float(result_value),
+                        "result_group": result_group if 'result_group' in locals() else None
+                    },
+                    artifacts={
+                        "chart_data": chart_data,
+                        "chart_type": chart_type,
+                        "table_data": grouped_data.to_dict('records') if group_by_col and group_by_col in dataset.columns else None
+                    }
                 )
             }
             

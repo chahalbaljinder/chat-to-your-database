@@ -79,6 +79,35 @@ class DataUploadResponse(BaseModel):
     session_id: str
     error: Optional[str] = None
 
+# Additional models for frontend endpoints
+class AnalyzeRequest(BaseModel):
+    query: str
+    session_id: Optional[str] = None
+
+class AnalyzeResponse(BaseModel):
+    message: str
+    session_id: str
+    query: str
+    status: str = "started"
+
+class StatusResponse(BaseModel):
+    status: str  # "processing", "completed", "error"
+    session_id: str
+    result: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+class UploadResponse(BaseModel):
+    success: bool
+    message: str
+    preview: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+class QuickMenuResponse(BaseModel):
+    menu_items: List[Dict[str, Any]]
+
+# Store for background analysis tasks
+analysis_tasks = {}
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize the application"""
@@ -230,7 +259,13 @@ async def upload_data(
         return DataUploadResponse(
             success=True,
             message=f"Dataset '{file.filename}' uploaded and processed successfully",
-            dataset_info=convert_numpy_types(dataset_info.to_dict()),
+            dataset_info={
+                **convert_numpy_types(dataset_info.to_dict()),
+                "preview": {
+                    "columns": dataset_info.columns,
+                    "rows": df.head(5).fillna("").values.tolist() if hasattr(df, 'head') else []
+                }
+            },
             session_id=session_id
         )
     
@@ -238,6 +273,260 @@ async def upload_data(
         raise
     except Exception as e:
         logger.error(f"Error uploading data: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Frontend-specific endpoints
+@app.post("/analyze", response_model=AnalyzeResponse) 
+async def analyze_data(request: AnalyzeRequest):
+    """Analyze data endpoint for frontend - starts background analysis"""
+    try:
+        # Create or get session
+        if request.session_id:
+            session_context = session_manager.get_session(request.session_id)
+        else:
+            session_context = session_manager.create_session()
+        
+        if not session_context:
+            session_context = session_manager.create_session()
+        
+        session_id = session_context.session_id
+        
+        # Store the analysis task as "processing"
+        analysis_tasks[session_id] = {
+            "status": "processing",
+            "query": request.query,
+            "started_at": datetime.now(),
+            "result": None,
+            "error": None
+        }
+        
+        # Start background analysis
+        async def run_analysis():
+            try:
+                result = await orchestrator.process_query(
+                    query=request.query,
+                    context=session_context
+                )
+                
+                if result.get("success"):
+                    agent_response = result.get("response")
+                    analysis_tasks[session_id]["status"] = "completed"
+                    analysis_tasks[session_id]["result"] = {
+                        "description": "Analysis completed",
+                        "textResult": agent_response.content if agent_response else "Analysis completed",
+                        "chartType": "bar",  # Default chart type
+                        "data": []  # Chart data would come from artifacts
+                    }
+                    
+                    # Extract chart data if available
+                    if agent_response and agent_response.artifacts:
+                        artifacts = agent_response.artifacts
+                        if "chart_data" in artifacts:
+                            analysis_tasks[session_id]["result"]["data"] = artifacts["chart_data"]
+                        if "chart_type" in artifacts:
+                            analysis_tasks[session_id]["result"]["chartType"] = artifacts["chart_type"]
+                else:
+                    analysis_tasks[session_id]["status"] = "error"
+                    analysis_tasks[session_id]["error"] = result.get("error", "Analysis failed")
+                    
+            except Exception as e:
+                analysis_tasks[session_id]["status"] = "error"
+                analysis_tasks[session_id]["error"] = str(e)
+        
+        # Start the background task
+        asyncio.create_task(run_analysis())
+        
+        return AnalyzeResponse(
+            message="Analysis started",
+            session_id=session_id,
+            query=request.query,
+            status="started"
+        )
+        
+    except Exception as e:
+        logger.error(f"Error starting analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/status/{session_id}", response_model=StatusResponse)
+async def get_analysis_status(session_id: str):
+    """Get status of analysis task"""
+    try:
+        if session_id not in analysis_tasks:
+            raise HTTPException(status_code=404, detail="Analysis not found")
+        
+        task = analysis_tasks[session_id]
+        
+        response = StatusResponse(
+            status=task["status"],
+            session_id=session_id,
+            result=task.get("result"),
+            error=task.get("error")
+        )
+        
+        # Clean up completed or errored tasks after 1 minute
+        if task["status"] in ["completed", "error"]:
+            started_time = task["started_at"]
+            if (datetime.now() - started_time).seconds > 60:
+                del analysis_tasks[session_id]
+        
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting analysis status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/upload", response_model=UploadResponse)
+async def upload_file_simple(file: UploadFile = File(...)):
+    """Simple file upload endpoint for frontend"""
+    try:
+        # Create a new session for this upload
+        session_context = session_manager.create_session()
+        
+        # Validate file
+        if not file.filename:
+            raise HTTPException(status_code=400, detail="No file provided")
+        
+        # Check file size
+        content = await file.read()
+        file_size = len(content)
+        
+        if file_size > SETTINGS.MAX_FILE_SIZE_MB * 1024 * 1024:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"File size exceeds {SETTINGS.MAX_FILE_SIZE_MB}MB limit"
+            )
+        
+        # Save file temporarily
+        temp_filename = f"temp_{session_context.session_id}_{file.filename}"
+        temp_path = os.path.join("temp", temp_filename)
+        os.makedirs("temp", exist_ok=True)
+        
+        with open(temp_path, "wb") as f:
+            f.write(content)
+        
+        try:
+            # Load and process data
+            df, dataset_info = data_loader.load_file(temp_path)
+            
+            # Store dataset info in session context
+            dataset_info.file_path = temp_path
+            session_context.dataset_info = dataset_info
+            
+            # Keep temp file for session
+            session_context.temp_files = [temp_path]
+            
+            # Update session
+            session_manager.update_session(session_context)
+            
+            # Create preview data
+            preview_data = {
+                "columns": dataset_info.columns,
+                "rows": df.head(5).fillna("").values.tolist() if hasattr(df, 'head') else []
+            }
+            
+            logger.info(f"File uploaded successfully: {file.filename}")
+            
+            return UploadResponse(
+                success=True,
+                message=f"File '{file.filename}' uploaded successfully",
+                preview=preview_data
+            )
+            
+        except Exception as processing_error:
+            # If processing fails, still return success but with limited preview
+            logger.warning(f"File processing failed: {str(processing_error)}")
+            
+            # Try to create a simple preview
+            try:
+                content_str = content.decode('utf-8')
+                lines = content_str.split('\n')[:5]
+                preview_data = {
+                    "columns": ["Content"],
+                    "rows": [[line[:50] + "..." if len(line) > 50 else line] for line in lines if line.strip()]
+                }
+            except:
+                preview_data = {
+                    "columns": ["File"],
+                    "rows": [[f"Uploaded: {file.filename}"]]
+                }
+            
+            return UploadResponse(
+                success=True,
+                message=f"File '{file.filename}' uploaded (processing had issues)",
+                preview=preview_data
+            )
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading file: {str(e)}")
+        return UploadResponse(
+            success=False,
+            message="Upload failed",
+            error=str(e)
+        )
+
+@app.get("/quick-menu", response_model=QuickMenuResponse)
+async def get_quick_menu():
+    """Get quick analysis menu items"""
+    try:
+        menu_items = [
+            {
+                "id": "overview",
+                "title": "📊 Data Overview",
+                "description": "Get a comprehensive summary of your dataset structure and content",
+                "query": "Show me a complete overview of this dataset including structure, statistics, and key insights"
+            },
+            {
+                "id": "statistics", 
+                "title": "📈 Statistical Summary",
+                "description": "View descriptive statistics for all numeric columns",
+                "query": "Calculate and show descriptive statistics for all numeric columns"
+            },
+            {
+                "id": "correlations",
+                "title": "🔗 Correlation Analysis", 
+                "description": "Find relationships and correlations between variables",
+                "query": "Show correlation analysis between all numeric variables with a heatmap"
+            },
+            {
+                "id": "trends",
+                "title": "📉 Trend Analysis",
+                "description": "Identify patterns and trends over time",
+                "query": "Analyze trends and patterns in the data over time"
+            },
+            {
+                "id": "missing_data",
+                "title": "❓ Missing Data Analysis",
+                "description": "Analyze missing values and data quality issues",
+                "query": "Analyze missing values and data quality issues in the dataset"
+            },
+            {
+                "id": "distributions",
+                "title": "📊 Distribution Analysis",
+                "description": "Visualize distributions of key variables",
+                "query": "Show distribution plots for the most important variables"
+            },
+            {
+                "id": "outliers",
+                "title": "🎯 Outlier Detection",
+                "description": "Identify and analyze outliers in the data",
+                "query": "Detect and analyze outliers in the numeric columns"
+            },
+            {
+                "id": "insights",
+                "title": "💡 Key Insights",
+                "description": "Generate business insights and recommendations",
+                "query": "What are the key insights and actionable recommendations from this data?"
+            }
+        ]
+        
+        return QuickMenuResponse(menu_items=menu_items)
+        
+    except Exception as e:
+        logger.error(f"Error getting quick menu: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # Main chat endpoint
