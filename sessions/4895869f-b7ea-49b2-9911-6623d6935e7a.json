@@ -1,0 +1,650 @@
+{
+  "session_id": "4895869f-b7ea-49b2-9911-6623d6935e7a",
+  "created_at": "2025-08-22T01:14:50.172492",
+  "last_active": "2025-08-22T01:25:33.823667",
+  "conversation_history": [
+    {
+      "user_query": "Identify the top 3 factors affecting production quality",
+      "assistant_response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+      "timestamp": "2025-08-22T01:16:00.025201",
+      "agent_responses": [
+        {
+          "agent": "data_analysis",
+          "operation": "analyze",
+          "response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+          "response_type": "overview",
+          "metadata": {
+            "analysis_type": "general_overview",
+            "dataset_shape": [
+              20,
+              10
+            ],
+            "numeric_columns": 7,
+            "categorical_columns": 3
+          },
+          "artifacts": {
+            "data_overview": {
+              "shape": [
+                20,
+                10
+              ],
+              "columns": [
+                "Date",
+                "Production_Line",
+                "Shift",
+                "Units_Produced",
+                "Quality_Score",
+                "Downtime_Minutes",
+                "Defects",
+                "OEE_Percentage",
+                "Temperature",
+                "Humidity"
+              ],
+              "data_types": {
+                "Date": "object",
+                "Production_Line": "object",
+                "Shift": "object",
+                "Units_Produced": "int64",
+                "Quality_Score": "float64",
+                "Downtime_Minutes": "int64",
+                "Defects": "int64",
+                "OEE_Percentage": "float64",
+                "Temperature": "float64",
+                "Humidity": "float64"
+              },
+              "numeric_columns": [
+                "Units_Produced",
+                "Quality_Score",
+                "Downtime_Minutes",
+                "Defects",
+                "OEE_Percentage",
+                "Temperature",
+                "Humidity"
+              ],
+              "categorical_columns": [
+                "Date",
+                "Production_Line",
+                "Shift"
+              ],
+              "missing_values": {
+                "Date": 0,
+                "Production_Line": 0,
+                "Shift": 0,
+                "Units_Produced": 0,
+                "Quality_Score": 0,
+                "Downtime_Minutes": 0,
+                "Defects": 0,
+                "OEE_Percentage": 0,
+                "Temperature": 0,
+                "Humidity": 0
+              },
+              "sample_data": [
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_A",
+                  "Shift": "Morning",
+                  "Units_Produced": 150,
+                  "Quality_Score": 98.5,
+                  "Downtime_Minutes": 12,
+                  "Defects": 2,
+                  "OEE_Percentage": 85.2,
+                  "Temperature": 22.3,
+                  "Humidity": 45.2
+                },
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_A",
+                  "Shift": "Evening",
+                  "Units_Produced": 142,
+                  "Quality_Score": 97.8,
+                  "Downtime_Minutes": 18,
+                  "Defects": 3,
+                  "OEE_Percentage": 82.1,
+                  "Temperature": 21.8,
+                  "Humidity": 46.1
+                },
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_B",
+                  "Shift": "Morning",
+                  "Units_Produced": 165,
+                  "Quality_Score": 99.1,
+                  "Downtime_Minutes": 8,
+                  "Defects": 1,
+                  "OEE_Percentage": 89.3,
+                  "Temperature": 23.1,
+                  "Humidity": 44.8
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "orchestrator_workflow": true,
+        "success": true
+      }
+    },
+    {
+      "user_query": "Which day had the highest overall production efficiency?",
+      "assistant_response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+      "timestamp": "2025-08-22T01:19:30.172165",
+      "agent_responses": [
+        {
+          "agent": "data_analysis",
+          "operation": "analyze",
+          "response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+          "response_type": "overview",
+          "metadata": {
+            "analysis_type": "general_overview",
+            "dataset_shape": [
+              20,
+              10
+            ],
+            "numeric_columns": 7,
+            "categorical_columns": 3
+          },
+          "artifacts": {
+            "data_overview": {
+              "shape": [
+                20,
+                10
+              ],
+              "columns": [
+                "Date",
+                "Production_Line",
+                "Shift",
+                "Units_Produced",
+                "Quality_Score",
+                "Downtime_Minutes",
+                "Defects",
+                "OEE_Percentage",
+                "Temperature",
+                "Humidity"
+              ],
+              "data_types": {
+                "Date": "object",
+                "Production_Line": "object",
+                "Shift": "object",
+                "Units_Produced": "int64",
+                "Quality_Score": "float64",
+                "Downtime_Minutes": "int64",
+                "Defects": "int64",
+                "OEE_Percentage": "float64",
+                "Temperature": "float64",
+                "Humidity": "float64"
+              },
+              "numeric_columns": [
+                "Units_Produced",
+                "Quality_Score",
+                "Downtime_Minutes",
+                "Defects",
+                "OEE_Percentage",
+                "Temperature",
+                "Humidity"
+              ],
+              "categorical_columns": [
+                "Date",
+                "Production_Line",
+                "Shift"
+              ],
+              "missing_values": {
+                "Date": 0,
+                "Production_Line": 0,
+                "Shift": 0,
+                "Units_Produced": 0,
+                "Quality_Score": 0,
+                "Downtime_Minutes": 0,
+                "Defects": 0,
+                "OEE_Percentage": 0,
+                "Temperature": 0,
+                "Humidity": 0
+              },
+              "sample_data": [
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_A",
+                  "Shift": "Morning",
+                  "Units_Produced": 150,
+                  "Quality_Score": 98.5,
+                  "Downtime_Minutes": 12,
+                  "Defects": 2,
+                  "OEE_Percentage": 85.2,
+                  "Temperature": 22.3,
+                  "Humidity": 45.2
+                },
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_A",
+                  "Shift": "Evening",
+                  "Units_Produced": 142,
+                  "Quality_Score": 97.8,
+                  "Downtime_Minutes": 18,
+                  "Defects": 3,
+                  "OEE_Percentage": 82.1,
+                  "Temperature": 21.8,
+                  "Humidity": 46.1
+                },
+                {
+                  "Date": "2024-01-01",
+                  "Production_Line": "Line_B",
+                  "Shift": "Morning",
+                  "Units_Produced": 165,
+                  "Quality_Score": 99.1,
+                  "Downtime_Minutes": 8,
+                  "Defects": 1,
+                  "OEE_Percentage": 89.3,
+                  "Temperature": 23.1,
+                  "Humidity": 44.8
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "orchestrator_workflow": true,
+        "success": true
+      }
+    },
+    {
+      "user_query": "What is the average OEE percentage across all production lines?",
+      "assistant_response": "## Analysis Result: Average Oee Percentage\n\n**Answer:** Line_B had the average oee percentage with a value of **87.46**\n\n### Detailed Breakdown by Production Line:\n\n| Production Line | Average | Maximum | Minimum | Total | Count |\n|---|---|---|---|---|---|\n| Line_A | 82.8 | 86.1 | 78.9 | 828.5 | 10.0 |\n| Line_B | 87.5 | 91.2 | 84.2 | 874.6 | 10.0 |\n\n### Key Insights:\n- **Winner:** Line_B with 87.46 oee percentage\n- **Runner-up:** Line_A with 82.85 average oee percentage\n- **Performance Gap:** 5.6% difference between best and worst performing production line\n",
+      "timestamp": "2025-08-22T01:24:30.986130",
+      "agent_responses": [
+        {
+          "agent": "data_analysis",
+          "operation": "analyze",
+          "response": "## Analysis Result: Average Oee Percentage\n\n**Answer:** Line_B had the average oee percentage with a value of **87.46**\n\n### Detailed Breakdown by Production Line:\n\n| Production Line | Average | Maximum | Minimum | Total | Count |\n|---|---|---|---|---|---|\n| Line_A | 82.8 | 86.1 | 78.9 | 828.5 | 10.0 |\n| Line_B | 87.5 | 91.2 | 84.2 | 874.6 | 10.0 |\n\n### Key Insights:\n- **Winner:** Line_B with 87.46 oee percentage\n- **Runner-up:** Line_A with 82.85 average oee percentage\n- **Performance Gap:** 5.6% difference between best and worst performing production line\n",
+          "response_type": "analysis",
+          "metadata": {
+            "analysis_type": "aggregation",
+            "target_column": "OEE_Percentage",
+            "group_by": "Production_Line"
+          },
+          "artifacts": {}
+        }
+      ],
+      "metadata": {
+        "orchestrator_workflow": true,
+        "success": true
+      }
+    },
+    {
+      "user_query": "Which production line has the lowest downtime?",
+      "assistant_response": "## Analysis Result: Lowest Downtime Minutes\n\n**Answer:** Line_B had the lowest downtime minutes with a value of **6**\n\n### Detailed Breakdown by Production Line:\n\n| Production Line | Average | Maximum | Minimum | Total | Count |\n|---|---|---|---|---|---|\n| Line_A | 16.9 | 24.0 | 11.0 | 169.0 | 10.0 |\n| Line_B | 12.4 | 18.0 | 6.0 | 124.0 | 10.0 |\n\n### Key Insights:\n- **Winner:** Line_B with 6 downtime minutes\n- **Runner-up:** Line_B with 12.4 average downtime minutes\n- **Performance Gap:** 36.3% difference between best and worst performing production line\n",
+      "timestamp": "2025-08-22T01:25:33.823667",
+      "agent_responses": [
+        {
+          "agent": "data_analysis",
+          "operation": "analyze",
+          "response": "## Analysis Result: Lowest Downtime Minutes\n\n**Answer:** Line_B had the lowest downtime minutes with a value of **6**\n\n### Detailed Breakdown by Production Line:\n\n| Production Line | Average | Maximum | Minimum | Total | Count |\n|---|---|---|---|---|---|\n| Line_A | 16.9 | 24.0 | 11.0 | 169.0 | 10.0 |\n| Line_B | 12.4 | 18.0 | 6.0 | 124.0 | 10.0 |\n\n### Key Insights:\n- **Winner:** Line_B with 6 downtime minutes\n- **Runner-up:** Line_B with 12.4 average downtime minutes\n- **Performance Gap:** 36.3% difference between best and worst performing production line\n",
+          "response_type": "analysis",
+          "metadata": {
+            "analysis_type": "aggregation",
+            "target_column": "Downtime_Minutes",
+            "group_by": "Production_Line"
+          },
+          "artifacts": {}
+        }
+      ],
+      "metadata": {
+        "orchestrator_workflow": true,
+        "success": true
+      }
+    }
+  ],
+  "dataset_info": {
+    "name": "temp_4895869f-b7ea-49b2-9911-6623d6935e7a_sample_manufacturing_data",
+    "file_path": "temp\\temp_4895869f-b7ea-49b2-9911-6623d6935e7a_sample_manufacturing_data.csv",
+    "shape": [
+      20,
+      10
+    ],
+    "columns": [
+      "Date",
+      "Production_Line",
+      "Shift",
+      "Units_Produced",
+      "Quality_Score",
+      "Downtime_Minutes",
+      "Defects",
+      "OEE_Percentage",
+      "Temperature",
+      "Humidity"
+    ],
+    "dtypes": {
+      "Date": "object",
+      "Production_Line": "object",
+      "Shift": "object",
+      "Units_Produced": "int64",
+      "Quality_Score": "float64",
+      "Downtime_Minutes": "int64",
+      "Defects": "int64",
+      "OEE_Percentage": "float64",
+      "Temperature": "float64",
+      "Humidity": "float64"
+    },
+    "summary_stats": {
+      "numeric_summary": {
+        "Units_Produced": {
+          "count": 20.0,
+          "mean": 153.9,
+          "std": 7.724874381536979,
+          "min": 142.0,
+          "25%": 147.75,
+          "50%": 153.5,
+          "75%": 159.5,
+          "max": 168.0
+        },
+        "Quality_Score": {
+          "count": 20.0,
+          "mean": 98.53,
+          "std": 0.6096590936960722,
+          "min": 97.3,
+          "25%": 98.07499999999999,
+          "50%": 98.65,
+          "75%": 98.92500000000001,
+          "max": 99.5
+        },
+        "Downtime_Minutes": {
+          "count": 20.0,
+          "mean": 14.65,
+          "std": 4.738143096192854,
+          "min": 6.0,
+          "25%": 11.75,
+          "50%": 14.5,
+          "75%": 18.0,
+          "max": 24.0
+        },
+        "Defects": {
+          "count": 20.0,
+          "mean": 2.3,
+          "std": 1.2182817926554552,
+          "min": 0.0,
+          "25%": 1.75,
+          "50%": 2.0,
+          "75%": 3.0,
+          "max": 5.0
+        },
+        "OEE_Percentage": {
+          "count": 20.0,
+          "mean": 85.155,
+          "std": 3.175643324795117,
+          "min": 78.9,
+          "25%": 82.725,
+          "50%": 85.85,
+          "75%": 87.05000000000001,
+          "max": 91.2
+        },
+        "Temperature": {
+          "count": 20.0,
+          "mean": 22.565000000000005,
+          "std": 0.5984849292390877,
+          "min": 21.5,
+          "25%": 22.125,
+          "50%": 22.75,
+          "75%": 23.025,
+          "max": 23.4
+        },
+        "Humidity": {
+          "count": 20.0,
+          "mean": 45.370000000000005,
+          "std": 0.6342006987663993,
+          "min": 44.3,
+          "25%": 44.95,
+          "50%": 45.25,
+          "75%": 45.925,
+          "max": 46.4
+        }
+      },
+      "missing_values": {
+        "Date": 0,
+        "Production_Line": 0,
+        "Shift": 0,
+        "Units_Produced": 0,
+        "Quality_Score": 0,
+        "Downtime_Minutes": 0,
+        "Defects": 0,
+        "OEE_Percentage": 0,
+        "Temperature": 0,
+        "Humidity": 0
+      },
+      "unique_values": {
+        "Date": 5,
+        "Production_Line": 2,
+        "Shift": 2,
+        "Units_Produced": 20,
+        "Quality_Score": 17,
+        "Downtime_Minutes": 16,
+        "Defects": 6,
+        "OEE_Percentage": 19,
+        "Temperature": 17,
+        "Humidity": 18
+      }
+    },
+    "quality_info": {
+      "total_rows": 20,
+      "total_columns": 10,
+      "memory_usage": 5128,
+      "issues": [],
+      "potential_id_columns": [
+        "Units_Produced"
+      ]
+    },
+    "last_analyzed": null
+  },
+  "cached_results": {
+    "result_20250822_011600": {
+      "query": "Identify the top 3 factors affecting production quality",
+      "response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+      "artifacts": {
+        "data_overview": {
+          "shape": [
+            20,
+            10
+          ],
+          "columns": [
+            "Date",
+            "Production_Line",
+            "Shift",
+            "Units_Produced",
+            "Quality_Score",
+            "Downtime_Minutes",
+            "Defects",
+            "OEE_Percentage",
+            "Temperature",
+            "Humidity"
+          ],
+          "data_types": {
+            "Date": "object",
+            "Production_Line": "object",
+            "Shift": "object",
+            "Units_Produced": "int64",
+            "Quality_Score": "float64",
+            "Downtime_Minutes": "int64",
+            "Defects": "int64",
+            "OEE_Percentage": "float64",
+            "Temperature": "float64",
+            "Humidity": "float64"
+          },
+          "numeric_columns": [
+            "Units_Produced",
+            "Quality_Score",
+            "Downtime_Minutes",
+            "Defects",
+            "OEE_Percentage",
+            "Temperature",
+            "Humidity"
+          ],
+          "categorical_columns": [
+            "Date",
+            "Production_Line",
+            "Shift"
+          ],
+          "missing_values": {
+            "Date": 0,
+            "Production_Line": 0,
+            "Shift": 0,
+            "Units_Produced": 0,
+            "Quality_Score": 0,
+            "Downtime_Minutes": 0,
+            "Defects": 0,
+            "OEE_Percentage": 0,
+            "Temperature": 0,
+            "Humidity": 0
+          },
+          "sample_data": [
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_A",
+              "Shift": "Morning",
+              "Units_Produced": 150,
+              "Quality_Score": 98.5,
+              "Downtime_Minutes": 12,
+              "Defects": 2,
+              "OEE_Percentage": 85.2,
+              "Temperature": 22.3,
+              "Humidity": 45.2
+            },
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_A",
+              "Shift": "Evening",
+              "Units_Produced": 142,
+              "Quality_Score": 97.8,
+              "Downtime_Minutes": 18,
+              "Defects": 3,
+              "OEE_Percentage": 82.1,
+              "Temperature": 21.8,
+              "Humidity": 46.1
+            },
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_B",
+              "Shift": "Morning",
+              "Units_Produced": 165,
+              "Quality_Score": 99.1,
+              "Downtime_Minutes": 8,
+              "Defects": 1,
+              "OEE_Percentage": 89.3,
+              "Temperature": 23.1,
+              "Humidity": 44.8
+            }
+          ]
+        }
+      },
+      "timestamp": "2025-08-22T01:16:00.025201"
+    },
+    "result_20250822_011930": {
+      "query": "Which day had the highest overall production efficiency?",
+      "response": "## Dataset Overview\n\n**Size:** 20 rows \u00d7 10 columns\n\n**Columns:**\n- **Date** (object)\n- **Production_Line** (object)\n- **Shift** (object)\n- **Units_Produced** (int64)\n- **Quality_Score** (float64)\n- **Downtime_Minutes** (int64)\n- **Defects** (int64)\n- **OEE_Percentage** (float64)\n- **Temperature** (float64)\n- **Humidity** (float64)\n\n**Sample Data (first 3 rows):**\n\n| Date | Production_Line | Shift | Units_Produced | Quality_Score | Downtime_Minutes | Defects | OEE_Percentage | Temperature | Humidity |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 2024-01-01 | Line_A | Morning | 150 | 98.5 | 12 | 2 | 85.2 | 22.3 | 45.2 |\n| 2024-01-01 | Line_A | Evening | 142 | 97.8 | 18 | 3 | 82.1 | 21.8 | 46.1 |\n| 2024-01-01 | Line_B | Morning | 165 | 99.1 | 8 | 1 | 89.3 | 23.1 | 44.8 |\n\n**Key Insights:**\n- Dataset contains 20 rows and 10 columns\n- No missing values detected\n- Numeric columns available for analysis: Units_Produced, Quality_Score, Downtime_Minutes\n- Categorical columns for grouping: Date, Production_Line, Shift\n\n**What you can ask me:**\n- \"Show me the data for [specific value]\" - Filter and display specific records\n- \"Describe [column name]\" - Get statistical summary of a column  \n- \"Compare [column1] vs [column2]\" - Analyze relationships between columns\n- \"Show me correlations\" - Find relationships between numeric variables\n- \"Create a chart of [data]\" - Generate visualizations\n",
+      "artifacts": {
+        "data_overview": {
+          "shape": [
+            20,
+            10
+          ],
+          "columns": [
+            "Date",
+            "Production_Line",
+            "Shift",
+            "Units_Produced",
+            "Quality_Score",
+            "Downtime_Minutes",
+            "Defects",
+            "OEE_Percentage",
+            "Temperature",
+            "Humidity"
+          ],
+          "data_types": {
+            "Date": "object",
+            "Production_Line": "object",
+            "Shift": "object",
+            "Units_Produced": "int64",
+            "Quality_Score": "float64",
+            "Downtime_Minutes": "int64",
+            "Defects": "int64",
+            "OEE_Percentage": "float64",
+            "Temperature": "float64",
+            "Humidity": "float64"
+          },
+          "numeric_columns": [
+            "Units_Produced",
+            "Quality_Score",
+            "Downtime_Minutes",
+            "Defects",
+            "OEE_Percentage",
+            "Temperature",
+            "Humidity"
+          ],
+          "categorical_columns": [
+            "Date",
+            "Production_Line",
+            "Shift"
+          ],
+          "missing_values": {
+            "Date": 0,
+            "Production_Line": 0,
+            "Shift": 0,
+            "Units_Produced": 0,
+            "Quality_Score": 0,
+            "Downtime_Minutes": 0,
+            "Defects": 0,
+            "OEE_Percentage": 0,
+            "Temperature": 0,
+            "Humidity": 0
+          },
+          "sample_data": [
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_A",
+              "Shift": "Morning",
+              "Units_Produced": 150,
+              "Quality_Score": 98.5,
+              "Downtime_Minutes": 12,
+              "Defects": 2,
+              "OEE_Percentage": 85.2,
+              "Temperature": 22.3,
+              "Humidity": 45.2
+            },
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_A",
+              "Shift": "Evening",
+              "Units_Produced": 142,
+              "Quality_Score": 97.8,
+              "Downtime_Minutes": 18,
+              "Defects": 3,
+              "OEE_Percentage": 82.1,
+              "Temperature": 21.8,
+              "Humidity": 46.1
+            },
+            {
+              "Date": "2024-01-01",
+              "Production_Line": "Line_B",
+              "Shift": "Morning",
+              "Units_Produced": 165,
+              "Quality_Score": 99.1,
+              "Downtime_Minutes": 8,
+              "Defects": 1,
+              "OEE_Percentage": 89.3,
+              "Temperature": 23.1,
+              "Humidity": 44.8
+            }
+          ]
+        }
+      },
+      "timestamp": "2025-08-22T01:19:30.172165"
+    }
+  },
+  "user_preferences": {
+    "additionalProp1": {}
+  },
+  "metadata": {
+    "additionalProp1": {}
+  },
+  "temp_files": [
+    "temp\\temp_4895869f-b7ea-49b2-9911-6623d6935e7a_sample_manufacturing_data.csv"
+  ]
+}
